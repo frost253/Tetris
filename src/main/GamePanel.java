@@ -60,7 +60,8 @@ public class GamePanel extends JPanel implements EventListener, KeyListener {
 
         //check collision with other block here
         for (Cell i : activeBlock.cells) {
-            if (cellArray[i.x][i.y + 1].cellId != -1);
+            if (cellArray[i.y + 1][i.x].cellId != -1);
+            return true;
         }
         return false;
     }
