@@ -28,12 +28,4 @@ public class LineBlock extends Block {
             i.cellId = id;
         }
     }
-
-    @Override
-    public void rotate() {
-
-    }
-//    int rotationMatrix(int x, int y) {
-//
-//    }
 }

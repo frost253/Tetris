@@ -1,6 +1,8 @@
 package blocks;
 
 import main.GamePanel;
+
+import javax.swing.*;
 import java.awt.*;
 import java.sql.Array;
 import java.util.ArrayList;
@@ -33,8 +35,6 @@ public abstract class Block {
             cellArray[i.y][i.x].setBackground(fill);
         }
     }
-
-    public abstract void rotate();
 
     public void shift(String direction, Cell[][] cellArray) {
         switch (direction) {
@@ -117,6 +117,8 @@ public abstract class Block {
             newCells.add(cellArray[cells.get(i).y + 1][cells.get(i).x]);
 
             // erases old cells
+
+            // bug is right here
             cellArray[cells.get(i).y][cells.get(i).x].setBackground(GamePanel.blank);
             cellArray[cells.get(i).y][cells.get(i).x].cellId = -1;
 
@@ -127,8 +129,8 @@ public abstract class Block {
         cells = newCells;
         Collections.reverse(cells);
 
-        for (int i=0; i<cells.size()-1; i++) {
-            cellArray[cells.get(i).y][cells.get(i).x].cellId = id;
+        for (Cell i : cells) {
+            cellArray[i.y][i.x].cellId = id;
         }
     }
 }
