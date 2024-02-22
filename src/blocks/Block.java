@@ -11,21 +11,12 @@ import java.util.List;
 import java.util.Random;
 
 public abstract class Block {
-    private final Color fill;
-    public List<Cell> cells;
+    public ArrayList<Cell> cells;
     static int lastId = 0;
     public int id;
 
     Block() {
-        Random random = new Random();
 
-        // Generate random values for Red, Green, and Blue components
-        int red = random.nextInt(256);    // Random value between 0 (inclusive) and 256 (exclusive)
-        int green = random.nextInt(256);  // Random value between 0 (inclusive) and 256 (exclusive)
-        int blue = random.nextInt(256);   // Random value between 0 (inclusive) and 256 (exclusive)
-
-        // Create a Color object with the random RGB values
-        fill = new Color(red, green, blue);
         cells = new ArrayList<>();
 
     }
@@ -55,34 +46,34 @@ public abstract class Block {
 
                     if (isLastCell) {
                         // erase current position
-                        for (Cell j : cells) {
-                            cellArray[j.y][j.x].cellId = -1;
-                            cellArray[j.y][j.x].setBackground(GamePanel.blank);
+                        for (Cell cell : cells) {
+                            cellArray[cell.y][cell.x].cellId = -1;
+                            cellArray[cell.y][cell.x].setBackground(GamePanel.blank);
                         }
 
                         // updates the position
-                        List<Cell> newCells = new ArrayList<>();
-                        for (Cell j : cells) {
-                            newCells.add(cellArray[j.y][j.x - 1]);
-                            cellArray[j.y][j.x - 1].cellId = id;
-                            cellArray[j.y][j.x - 1].setBackground(fill);
+                        ArrayList<Cell> newCells = new ArrayList<>();
+                        for (Cell cell : cells) {
+                            newCells.add(cellArray[cell.y][cell.x - 1]);
+                            cellArray[cell.y][cell.x - 1].cellId = id;
+                            cellArray[cell.y][cell.x - 1].setColor(cell.getColor());
                             cells = newCells;
                         }
                     }
                 }
             }
             case "RIGHT" -> {
-                for (Cell i : cells) {
-                    boolean isLastCell = cells.get(cells.size() - 1) == i;
+                for (Cell cell : cells) {
+                    boolean isLastCell = cells.get(cells.size() - 1) == cell;
 
                     // checks if at edge
-                    if (i.x >= cellArray[0].length - 1) return;
+                    if (cell.x >= cellArray[0].length - 1) return;
 
-                    if ((cellArray[i.y][i.x + 1].cellId == id || cellArray[i.y][i.x + 1].cellId == -1) && !isLastCell) {
+                    if ((cellArray[cell.y][cell.x + 1].cellId == id || cellArray[cell.y][cell.x + 1].cellId == -1) && !isLastCell) {
                         continue;
                     }
 
-                    if ((cellArray[i.y][i.x + 1].cellId != id) && (cellArray[i.y][i.x + 1].cellId != -1)) {
+                    if ((cellArray[cell.y][cell.x + 1].cellId != id) && (cellArray[cell.y][cell.x + 1].cellId != -1)) {
                         return;
                     }
 
@@ -94,11 +85,11 @@ public abstract class Block {
                         }
 
                         // updates the position
-                        List<Cell> newCells = new ArrayList<>();
+                        ArrayList<Cell> newCells = new ArrayList<>();
                         for (Cell j : cells) {
                             newCells.add(cellArray[j.y][j.x + 1]);
                             cellArray[j.y][j.x + 1].cellId = id;
-                            cellArray[j.y][j.x + 1].setBackground(fill);
+                            cellArray[j.y][j.x + 1].setColor(j.getColor());
                             cells = newCells;
                         }
                     }
@@ -109,7 +100,7 @@ public abstract class Block {
 
     public void moveDown(Cell[][] cellArray) {
         int size = cells.size() - 1;
-        List<Cell> newCells = new ArrayList<>();
+        ArrayList<Cell> newCells = new ArrayList<>();
 
         for (int i=size; i>=0; i--) {
 

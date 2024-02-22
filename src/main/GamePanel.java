@@ -83,7 +83,7 @@ public class GamePanel extends JPanel implements EventListener, KeyListener {
         }
     }
 
-    boolean checkComplete() {
+    void checkComplete() {
         int rowCount = 0;
         for (Cell[] rows : cellArray) {
             for (Cell cols : rows) {
@@ -103,27 +103,23 @@ public class GamePanel extends JPanel implements EventListener, KeyListener {
                         update();
                     }
 
-                    // cells aren't actually getting deleted ?
-                    CompleteBlock completeBlock = new CompleteBlock();
                     List<Cell> cells = new ArrayList<>();
                     for (Cell[] cellRows : cellArray) {
                         for (Cell cellCols : cellRows) {
-//                            cells.addAll(Arrays.asList(cellRows));
                             if (cellCols.cellId != -1) {
                                 cells.add(cellCols);
-                                cellCols.setBackground(Color.BLACK);
                             }
                         }
                     }
-                    completeBlock.setCells(cells);
-                    completeBlock.moveDown(cellArray);
 
-                    return true;
+                    for (Cell cell : cells) {
+                        cell.moveDown();
+                    }
+                    return;
                 }
                 if (cols.x == rows.length) rowCount = 0;
             }
         }
-        return false;
     }
 
     @Override
@@ -143,7 +139,14 @@ public class GamePanel extends JPanel implements EventListener, KeyListener {
     public void keyReleased(KeyEvent e) {
     }
 
+    void testBlocks() {
+        TestBlocks testBlocks= new TestBlocks();
+        //testBlocks.setColor(Color.RED);
+        blockList.add(testBlocks);
+    }
+
     void gameLoop() {
+        testBlocks();
         newBlock();
         while (running) {
             long startTime = System.nanoTime();
