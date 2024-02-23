@@ -22,8 +22,8 @@ public abstract class Block {
     }
 
     public void draw(Cell[][] cellArray) {
-        for (Cell i : cells) {
-            cellArray[i.y][i.x].setBackground(fill);
+        for (Cell cell : cells) {
+            cellArray[cell.y][cell.x].setColor(cell.getColor());
         }
     }
 
@@ -48,7 +48,7 @@ public abstract class Block {
                         // erase current position
                         for (Cell cell : cells) {
                             cellArray[cell.y][cell.x].cellId = -1;
-                            cellArray[cell.y][cell.x].setBackground(GamePanel.blank);
+                            cellArray[cell.y][cell.x].setColor(Color.WHITE);
                         }
 
                         // updates the position
@@ -81,7 +81,7 @@ public abstract class Block {
                         // erase current position
                         for (Cell j : cells) {
                             cellArray[j.y][j.x].cellId = -1;
-                            cellArray[j.y][j.x].setBackground(GamePanel.blank);
+                            cellArray[j.y][j.x].setColor(Color.WHITE);
                         }
 
                         // updates the position
@@ -108,9 +108,7 @@ public abstract class Block {
             newCells.add(cellArray[cells.get(i).y + 1][cells.get(i).x]);
 
             // erases old cells
-
-            // bug is right here
-            cellArray[cells.get(i).y][cells.get(i).x].setBackground(GamePanel.blank);
+            cellArray[cells.get(i).y][cells.get(i).x].setColor(Color.WHITE);
             cellArray[cells.get(i).y][cells.get(i).x].cellId = -1;
 
             // removes old cells from cells array

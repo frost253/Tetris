@@ -3,15 +3,16 @@ package blocks;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.util.Objects;
 import java.util.Random;
 
 import main.GamePanel;
 
-public class Cell extends JPanel {
+public class Cell {
     public int x, y;
     public int cellId;
-    private JLabel label;
+    private final JLabel label;
+    private final JPanel panel;
+    private final Color blank;
     public Cell(int y, int x, int cellId) {
         Random random = new Random();
 
@@ -25,7 +26,7 @@ public class Cell extends JPanel {
 
         blank = Color.WHITE;
         label = new JLabel();
-        this.add(label);
+        panel.add(label);
         this.y = y;
         this.x = x;
 
@@ -37,23 +38,29 @@ public class Cell extends JPanel {
         Cell newPos = GamePanel.getCellAt(y + 1, x);
 
         newPos.cellId = cellId;
-        newPos.setBackground(color);
+        newPos.setColor(getColor());
 
         oldPos.cellId = -1;
-        oldPos.setBackground(blank);
+        oldPos.setColor(blank);
     }
 
     public void setColor(Color color) {
-        if (color == Color.WHITE) return;
-        this.color = color;
         panel.setBackground(color);
     }
 
     public Color getColor() {
-        return color;
+        return panel.getBackground();
     }
     public JLabel getLabel() {
-        return this.label;
+        return label;
+    }
+
+    public JPanel getPanel() {
+        return panel;
+    }
+
+    public void setBorder(Border border) {
+        panel.setBorder(border);
     }
 
     @Override
