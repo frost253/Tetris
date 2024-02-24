@@ -56,7 +56,8 @@ public abstract class Block {
                         for (Cell cell : cells) {
                             newCells.add(cellArray[cell.y][cell.x - 1]);
                             cellArray[cell.y][cell.x - 1].cellId = id;
-                            cellArray[cell.y][cell.x - 1].setColor(cell.getColor());
+//                            cellArray[cell.y][cell.x - 1].setColor(cell.getColor());
+                            cellArray[cell.y][cell.x - 1].setColor(Color.GREEN);
                             cells = newCells;
                         }
                     }
@@ -120,6 +121,7 @@ public abstract class Block {
 
         for (Cell i : cells) {
             cellArray[i.y][i.x].cellId = id;
+            cellArray[i.y][i.x].setColor(Color.RED);
         }
     }
 }
