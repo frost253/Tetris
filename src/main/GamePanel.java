@@ -37,12 +37,16 @@ public class GamePanel extends JPanel implements EventListener, KeyListener {
         for (int i = 0; i < 40; i++) {
             for (int j = 0; j < 20; j++) {
                 cellArray[i][j] = new Cell(i, j, id);
-                cellArray[i][j].setBackground(blank);
+                cellArray[i][j].setColor(blank);
                 cellArray[i][j].setBorder(blackLine);
-                super.add(cellArray[i][j]);
+                super.add(cellArray[i][j].getPanel());
             }
         }
         counter = 0;
+    }
+
+    public static Cell getCellAt(int y, int x) {
+        return cellArray[y][x];
     }
 
     void update() {
@@ -98,7 +102,7 @@ public class GamePanel extends JPanel implements EventListener, KeyListener {
 
                     // delete completed row
                     for (int i=0; i<=19; i++) {
-                        cellArray[cols.y][i].setBackground(GamePanel.blank);
+                        cellArray[cols.y][i].setColor(GamePanel.blank);
                         cellArray[cols.y][i].cellId = -1;
                         update();
                     }

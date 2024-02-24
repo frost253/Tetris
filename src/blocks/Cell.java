@@ -8,11 +8,14 @@ import java.util.Random;
 
 import main.GamePanel;
 
-public class Cell extends JPanel {
+public class Cell {
+    JPanel panel;
     public int x, y;
     public int cellId;
     private JLabel label;
+    Color color;
     public Cell(int y, int x, int cellId) {
+        panel = new JPanel();
         Random random = new Random();
 
         // Generate random values for Red, Green, and Blue components
@@ -23,9 +26,8 @@ public class Cell extends JPanel {
         // Create a Color object with the random RGB values
         color = new Color(red, green, blue);
 
-        blank = Color.WHITE;
         label = new JLabel();
-        this.add(label);
+        panel.add(label);
         this.y = y;
         this.x = x;
 
@@ -37,10 +39,10 @@ public class Cell extends JPanel {
         Cell newPos = GamePanel.getCellAt(y + 1, x);
 
         newPos.cellId = cellId;
-        newPos.setBackground(color);
+        newPos.setColor(color);
 
         oldPos.cellId = -1;
-        oldPos.setBackground(blank);
+        oldPos.setColor(Color.WHITE);
     }
 
     public void setColor(Color color) {
@@ -62,5 +64,13 @@ public class Cell extends JPanel {
         if (o == null || getClass() != o.getClass()) return false;
         Cell cell = (Cell) o;
         return x == cell.x && y == cell.y && cellId == cell.cellId;
+    }
+
+    public void setBorder(Border border) {
+        panel.setBorder(border);
+    }
+
+    public Component getPanel() {
+        return panel;
     }
 }
