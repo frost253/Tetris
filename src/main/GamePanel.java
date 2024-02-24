@@ -22,7 +22,7 @@ public class GamePanel extends JPanel implements EventListener, KeyListener {
     boolean paused = false;
     ArrayList<Block> blockList = new ArrayList<>();
     Random r = new Random();
-    public static Color blank;
+    private static Color blank;
     int counter;
 
     public GamePanel() {
@@ -50,8 +50,8 @@ public class GamePanel extends JPanel implements EventListener, KeyListener {
     }
 
     void update() {
-        for (Cell[] i : cellArray) {
-            for (Cell j : i) {
+        for (Cell[] cells : cellArray) {
+            for (Cell j : cells) {
                 j.getLabel().setText(String.valueOf(j.cellId));
             }
         }
@@ -70,8 +70,8 @@ public class GamePanel extends JPanel implements EventListener, KeyListener {
         }
 
         //check collision with other block here
-        for (Cell i : activeBlock.cells) {
-            if ((cellArray[i.y + 1][i.x].cellId != -1) && (cellArray[i.y - 1][i.x].cellId != i.cellId))
+        for (Cell cell : activeBlock.cells) {
+            if ((cellArray[cell.y + 1][cell.x].cellId != -1) && (cellArray[cell.y - 1][cell.x].cellId != cell.cellId))
                 return true;
         }
         return false;
@@ -104,7 +104,6 @@ public class GamePanel extends JPanel implements EventListener, KeyListener {
                     for (int i=0; i<=19; i++) {
                         cellArray[cols.y][i].setColor(GamePanel.blank);
                         cellArray[cols.y][i].cellId = -1;
-                        update();
                     }
 
                     List<Cell> cells = new ArrayList<>();

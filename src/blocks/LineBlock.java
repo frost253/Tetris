@@ -2,6 +2,7 @@ package blocks;
 
 import main.GamePanel;
 
+import java.awt.*;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,6 +27,7 @@ public class LineBlock extends Block {
 
         for (Cell i : cells) {
             i.cellId = id;
+//            i.setColor(Color.BLUE);
         }
     }
 }
