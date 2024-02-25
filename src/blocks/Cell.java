@@ -3,7 +3,6 @@ package blocks;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.util.Objects;
 import java.util.Random;
 
 import main.GamePanel;
@@ -16,6 +15,11 @@ public class Cell {
     private Color color;
     public Cell(int y, int x, int cellId) {
         panel = new JPanel();
+        this.cellId = cellId;
+        label = new JLabel();
+        panel.add(label);
+        this.y = y;
+        this.x = x;
         Random random = new Random();
 
         // Generate random values for Red, Green, and Blue components
@@ -26,19 +30,15 @@ public class Cell {
         // Create a Color object with the random RGB values
         color = new Color(red, green, blue);
 
-        label = new JLabel();
-        panel.add(label);
-        this.y = y;
-        this.x = x;
-
-        this.cellId = cellId;
+        // don't like this
+        if (cellId == -1) color = Color.WHITE;
     }
 
     public void setCellId(int newId) {
         cellId = newId;
     }
 
-    public void moveDown() {
+    public void shiftDown() {
         Cell oldPos = GamePanel.getCellAt(y, x);
         Cell newPos = GamePanel.getCellAt(y + 1, x);
 

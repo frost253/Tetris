@@ -11,7 +11,7 @@ public class Tetris extends JFrame {
 
     static GamePanel gamePanel = new GamePanel();
 
-    Tetris() {
+    Tetris() throws InterruptedException {
         setSize(width, height);
         setLocationRelativeTo(null);
         setTitle(title);
@@ -32,7 +32,7 @@ public class Tetris extends JFrame {
         gamePanel.gameLoop();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         new Tetris();
     }
 

@@ -60,6 +60,7 @@ public class GamePanel extends JPanel implements EventListener, KeyListener {
                 cellArray[i][j].setColor(cellArray[i][j].getColor());
             }
         }
+
         if (counter == 5) {
             block.moveDown(cellArray);
             counter = 0;
@@ -97,7 +98,7 @@ public class GamePanel extends JPanel implements EventListener, KeyListener {
         }
     }
 
-    void checkComplete() {
+    void checkComplete() throws InterruptedException {
         int rowCount = 0;
         for (Cell[] rows : cellArray) {
             for (Cell cols : rows) {
@@ -112,21 +113,23 @@ public class GamePanel extends JPanel implements EventListener, KeyListener {
 
                     // delete completed row
                     for (int i=0; i<=19; i++) {
-                        cellArray[cols.y][i].setColor(GamePanel.blank);
+                        cellArray[cols.y][i].setColor(Color.WHITE);
                         cellArray[cols.y][i].cellId = -1;
                     }
+                    Thread.sleep(Integer.MAX_VALUE);
 
                     List<Cell> cells = new ArrayList<>();
                     for (Cell[] cellRows : cellArray) {
                         for (Cell cellCols : cellRows) {
                             if (cellCols.cellId != -1) {
                                 cells.add(cellCols);
+//                                cellCols.setColor(Color.BLACK);
                             }
                         }
                     }
 
                     for (Cell cell : cells) {
-                        cell.moveDown();
+                        cell.shiftDown();
                     }
                     return;
                 }
@@ -167,7 +170,7 @@ public class GamePanel extends JPanel implements EventListener, KeyListener {
         }
     }
 
-    void gameLoop() {
+    void gameLoop() throws InterruptedException {
         testBlocks();
         newBlock();
         while (running) {
