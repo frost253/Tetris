@@ -3,20 +3,20 @@ package blocks;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.util.Objects;
 import java.util.Random;
 
 import main.GamePanel;
 // import blocks.Direction;
 
 public class Cell {
+    JPanel panel;
     public int x, y;
     public int cellId;
-    private final JLabel label;
-    private final JPanel panel;
-    private final Color blank;
-	private final Color color;
+    private JLabel label;
+    private Color color;
     public Cell(int y, int x, int cellId) {
-		panel = new JPanel();
+        panel = new JPanel();
         Random random = new Random();
 
         // Generate random values for Red, Green, and Blue components
@@ -27,7 +27,6 @@ public class Cell {
         // Create a Color object with the random RGB values
         color = new Color(red, green, blue);
 
-        blank = Color.WHITE;
         label = new JLabel();
         panel.add(label);
         this.y = y;
@@ -72,29 +71,23 @@ public class Cell {
         Cell newPos = GamePanel.getCellAt(y + 1, x);
 
         newPos.cellId = cellId;
-        newPos.setColor(getColor());
+        newPos.setColor(color);
 
         oldPos.cellId = -1;
-        oldPos.setColor(blank);
+        oldPos.setColor(Color.WHITE);
     }
 
     public void setColor(Color color) {
+        if (color == Color.WHITE) return;
+        this.color = color;
         panel.setBackground(color);
     }
 
     public Color getColor() {
-        return panel.getBackground();
+        return color;
     }
     public JLabel getLabel() {
-        return label;
-    }
-
-    public JPanel getPanel() {
-        return panel;
-    }
-
-    public void setBorder(Border border) {
-        panel.setBorder(border);
+        return this.label;
     }
 
     @Override
@@ -103,5 +96,13 @@ public class Cell {
         if (o == null || getClass() != o.getClass()) return false;
         Cell cell = (Cell) o;
         return x == cell.x && y == cell.y && cellId == cell.cellId;
+    }
+
+    public void setBorder(Border border) {
+        panel.setBorder(border);
+    }
+
+    public Component getPanel() {
+        return panel;
     }
 }
