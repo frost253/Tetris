@@ -138,6 +138,10 @@ public class GamePanel extends JPanel implements EventListener, KeyListener {
         }
     }
 
+	public static Cell getCellAt(int row, int col) {
+		return cellArray[row][col];
+	}
+
     @Override
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
