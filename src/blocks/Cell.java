@@ -13,7 +13,7 @@ public class Cell {
     public int x, y;
     public int cellId;
     private JLabel label;
-    Color color;
+    private Color color;
     public Cell(int y, int x, int cellId) {
         panel = new JPanel();
         Random random = new Random();
@@ -32,6 +32,10 @@ public class Cell {
         this.x = x;
 
         this.cellId = cellId;
+    }
+
+    public void setCellId(int newId) {
+        cellId = newId;
     }
 
     public void moveDown() {

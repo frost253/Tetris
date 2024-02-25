@@ -1,18 +1,14 @@
 package blocks;
 
-import main.GamePanel;
-
 import java.awt.*;
-import java.sql.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import static main.GamePanel.cellArray;
 
 public class LineBlock extends Block {
+    Color color;
 
     public LineBlock() {
+        color = Color.BLUE;
         id = lastId++;
 //        int y=0;
 //
@@ -20,14 +16,13 @@ public class LineBlock extends Block {
 //            cells.add(new Cell(i, y, id));
 //        }
 
-        cells.add(cellArray[0][6]);
-        cells.add(cellArray[0][7]);
-        cells.add(cellArray[0][8]);
-        cells.add(cellArray[0][9]);
+        blockCells.add(cellArray[0][6]);
+        blockCells.add(cellArray[0][7]);
+        blockCells.add(cellArray[0][8]);
+        blockCells.add(cellArray[0][9]);
 
-        for (Cell i : cells) {
+        for (Cell i : blockCells) {
             i.cellId = id;
-//            i.setColor(Color.BLUE);
         }
     }
 }

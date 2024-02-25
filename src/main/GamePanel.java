@@ -7,12 +7,11 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
-import java.sql.Array;
 import java.util.*;
 import java.util.List;
 
 public class GamePanel extends JPanel implements EventListener, KeyListener {
-    private Block activeBlock;
+    private Block block;
     private final int x = 0;
     private final int y = 0;
     private final int WIDTH = 516;
@@ -20,7 +19,6 @@ public class GamePanel extends JPanel implements EventListener, KeyListener {
     public static Cell[][] cellArray;
     boolean running = true;
     boolean paused = false;
-    ArrayList<Block> blockList = new ArrayList<>();
     Random r = new Random();
     private static Color blank;
     int counter;
@@ -55,22 +53,29 @@ public class GamePanel extends JPanel implements EventListener, KeyListener {
                 j.getLabel().setText(String.valueOf(j.cellId));
             }
         }
+
+        // change this later
+        for (int i=0; i<40; i++) {
+            for (int j=0; j<20; j++) {
+                cellArray[i][j].setColor(cellArray[i][j].getColor());
+            }
+        }
         if (counter == 5) {
-            activeBlock.moveDown(cellArray);
+            block.moveDown(cellArray);
             counter = 0;
         }
     }
 
     boolean checkYCollision() {
 
-        for (int i=0; i<activeBlock.cells.size(); i++) {
-            if (activeBlock.cells.get(i).y == 39) {
+        for (int i = 0; i<block.blockCells.size(); i++) {
+            if (block.blockCells.get(i).y == 39) {
                 return true;
             }
         }
 
         //check collision with other block here
-        for (Cell cell : activeBlock.cells) {
+        for (Cell cell : block.blockCells) {
             if ((cellArray[cell.y + 1][cell.x].cellId != -1) && (cellArray[cell.y - 1][cell.x].cellId != cell.cellId))
                 return true;
         }
@@ -80,9 +85,14 @@ public class GamePanel extends JPanel implements EventListener, KeyListener {
     void newBlock() {
         switch (r.nextInt(1)) {
             case 0:
-                Block block = new LineBlock();
-                blockList.add(block);
-                activeBlock = block;
+
+                // deletes old block
+                block = null;
+                System.gc();
+
+                // create new block
+                this.block = new LineBlock();
+
                 break;
         }
     }
@@ -128,8 +138,8 @@ public class GamePanel extends JPanel implements EventListener, KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_RIGHT -> activeBlock.shift("RIGHT", cellArray);
-            case KeyEvent.VK_LEFT -> activeBlock.shift("LEFT", cellArray);
+            case KeyEvent.VK_RIGHT -> block.shift("RIGHT", cellArray);
+            case KeyEvent.VK_LEFT -> block.shift("LEFT", cellArray);
             case KeyEvent.VK_P -> paused = !paused;
         }
     }
@@ -143,9 +153,18 @@ public class GamePanel extends JPanel implements EventListener, KeyListener {
     }
 
     void testBlocks() {
-        TestBlocks testBlocks= new TestBlocks();
-        //testBlocks.setColor(Color.RED);
-        blockList.add(testBlocks);
+        int counter = 0;
+        for (Cell cell : cellArray[39]) {
+            if (counter < 16) {
+                cell.setColor(Color.BLUE);
+                cell.setCellId(99);
+            }
+            counter++;
+        }
+        for (int i = 12; i < 16; i++) {
+            cellArray[38][i].setColor(Color.BLUE);
+            cellArray[38][i].setCellId(99);
+        }
     }
 
     void gameLoop() {
@@ -154,10 +173,10 @@ public class GamePanel extends JPanel implements EventListener, KeyListener {
         while (running) {
             long startTime = System.nanoTime();
             update();
-            activeBlock.draw(cellArray);
+//            activeBlock.draw(cellArray);
             if (checkYCollision()) {
                 checkComplete();
-                activeBlock = null;
+
                 newBlock();
             }
 
