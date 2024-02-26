@@ -24,24 +24,24 @@ public abstract class Block {
 
     public void draw(Cell[][] cellArray) {
         for (Cell cell : cells) {
-            cellArray[cell.y][cell.x].setColor(cell.getColor());
+            cellArray[cell.y][cell.x].setColor(color);
         }
     }
 
     public void shift(String direction, Cell[][] cellArray) {
         switch (direction) {
             case "LEFT" -> {
-                for (Cell i : cells) {
-                    boolean isLastCell = cells.get(cells.size() - 1) == i;
+                for (Cell cell : cells) {
+                    boolean isLastCell = cells.get(cells.size() - 1) == cell;
 
                     // checks if at edge
-                    if (i.x <= 0) return;
+                    if (cell.x <= 0) return;
 
-                    if ((cellArray[i.y][i.x - 1].cellId == id || cellArray[i.y][i.x - 1].cellId == -1) && !isLastCell) {
+                    if ((cellArray[cell.y][cell.x - 1].cellId == id || cellArray[cell.y][cell.x - 1].cellId == -1) && !isLastCell) {
                         continue;
                     }
 
-                    if ((cellArray[i.y][i.x - 1].cellId != id) && (cellArray[i.y][i.x - 1].cellId != -1)) {
+                    if ((cellArray[cell.y][cell.x - 1].cellId != id) && (cellArray[cell.y][cell.x - 1].cellId != -1)) {
                         return;
                     }
 

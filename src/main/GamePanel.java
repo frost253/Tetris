@@ -51,7 +51,7 @@ public class GamePanel extends JPanel implements EventListener, KeyListener {
                 j.getLabel().setText(String.valueOf(j.cellId));
             }
         }
-        if (counter == 5) {
+        if (counter == 10) {
             activeBlock.moveDown(cellArray);
             counter = 0;
         }
