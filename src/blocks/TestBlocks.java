@@ -1,9 +1,11 @@
 package blocks;
 
 import static main.GamePanel.cellArray;
+import java.awt.Color;
 
 public class TestBlocks extends Block {
     public TestBlocks() {
+        super(Color.BLACK);
         id = lastId++;
 //        int y=0;
 //

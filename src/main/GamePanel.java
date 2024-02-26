@@ -39,7 +39,7 @@ public class GamePanel extends JPanel implements EventListener, KeyListener {
                 cellArray[i][j] = new Cell(i, j, id);
                 cellArray[i][j].setColor(blank);
                 cellArray[i][j].setBorder(blackLine);
-                super.add(cellArray[i][j]);
+                super.add(cellArray[i][j].getPanel());
             }
         }
         counter = 0;
@@ -119,6 +119,14 @@ public class GamePanel extends JPanel implements EventListener, KeyListener {
                 if (cols.x == rows.length) rowCount = 0;
             }
         }
+    }
+
+    public static Cell getCellAt(int row, int col) {
+        return cellArray[row][col];
+    }
+
+    public static Cell[][] getCellArray() {
+        return cellArray;
     }
 
     @Override

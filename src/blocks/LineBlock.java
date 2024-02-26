@@ -13,6 +13,7 @@ import static main.GamePanel.cellArray;
 public class LineBlock extends Block {
 
     public LineBlock() {
+        super(Color.BLUE);
         id = lastId++;
 //        int y=0;
 //

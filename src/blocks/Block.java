@@ -14,9 +14,10 @@ public abstract class Block {
     public ArrayList<Cell> cells;
     static int lastId = 0;
     public int id;
+    private Color color;
 
-    Block() {
-
+    Block(Color color) {
+        this.color = color;
         cells = new ArrayList<>();
 
     }
@@ -45,21 +46,8 @@ public abstract class Block {
                     }
 
                     if (isLastCell) {
-                        // erase current position
-                        for (Cell cell : cells) {
-                            cellArray[cell.y][cell.x].cellId = -1;
-                            cellArray[cell.y][cell.x].setColor(Color.WHITE);
-                        }
-
-                        // updates the position
-                        ArrayList<Cell> newCells = new ArrayList<>();
-                        for (Cell cell : cells) {
-                            newCells.add(cellArray[cell.y][cell.x - 1]);
-                            cellArray[cell.y][cell.x - 1].cellId = id;
-//                            cellArray[cell.y][cell.x - 1].setColor(cell.getColor());
-                            cellArray[cell.y][cell.x - 1].setColor(Color.GREEN);
-                            cells = newCells;
-                        }
+                        erasePosition();
+                        cells = getUpdatedCellPositions(cells, -1);
                     }
                 }
             }
@@ -79,24 +67,32 @@ public abstract class Block {
                     }
 
                     if (isLastCell) {
-                        // erase current position
-                        for (Cell j : cells) {
-                            cellArray[j.y][j.x].cellId = -1;
-                            cellArray[j.y][j.x].setColor(Color.WHITE);
-                        }
-
-                        // updates the position
-                        ArrayList<Cell> newCells = new ArrayList<>();
-                        for (Cell j : cells) {
-                            newCells.add(cellArray[j.y][j.x + 1]);
-                            cellArray[j.y][j.x + 1].cellId = id;
-                            cellArray[j.y][j.x + 1].setColor(j.getColor());
-                            cells = newCells;
-                        }
+                        erasePosition();
+                        cells = getUpdatedCellPositions(cells, 1);
                     }
                 }
             }
         }
+    }
+
+    private void erasePosition() {
+        Cell[][] cellArray = GamePanel.getCellArray();
+        for (Cell cell : cells) {
+            Cell panelCell = cellArray[cell.y][cell.x];
+            panelCell.cellId = -1;
+            panelCell.setColor(Color.WHITE);
+        }
+    }
+
+    private ArrayList<Cell> getUpdatedCellPositions(List<Cell> cells, int offset) {
+        Cell[][] cellArray = GamePanel.getCellArray();
+        ArrayList<Cell> newCells = new ArrayList<>();
+        for (Cell cell : cells) {
+            newCells.add(cellArray[cell.y][cell.x + offset]);
+            cellArray[cell.y][cell.x + offset].cellId = id;
+            cellArray[cell.y][cell.x + offset].setColor(color);
+        }
+        return newCells;
     }
 
     public void moveDown(Cell[][] cellArray) {

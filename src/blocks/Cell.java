@@ -13,8 +13,10 @@ public class Cell {
     private final JLabel label;
     private final JPanel panel;
     private final Color blank;
+    private final Color color;
     public Cell(int y, int x, int cellId) {
         Random random = new Random();
+        panel = new JPanel();
 
         // Generate random values for Red, Green, and Blue components
         int red = random.nextInt(256);    // Random value between 0 (inclusive) and 256 (exclusive)
