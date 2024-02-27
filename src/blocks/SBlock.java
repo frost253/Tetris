@@ -5,11 +5,9 @@ import java.awt.*;
 import static main.GamePanel.cellArray;
 
 public class SBlock extends Block {
-    Color color;
 
     public SBlock() {
         super();
-        color = new Color(236, 45, 45);
         id = lastId++;
 
         blockCells.add(cellArray[0][6]);
@@ -19,7 +17,7 @@ public class SBlock extends Block {
 
         for (Cell cell : blockCells) {
             cell.cellId = id;
-            cell.setColor(color);
+            cell.setColor(Colors.RED.color);
         }
     }
 }
