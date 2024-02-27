@@ -83,63 +83,65 @@ public abstract class Block {
     }
 
     public void moveDown(Cell[][] cellArray, String direction) {
-        int var1, var2;
-        boolean bool1, bool2, bool3, bool4;
+        int var1 = 0;
+        int var2 = 0;
 
         switch (direction) {
             case "down":
                 var1 = 1;
                 var2 = 0;
-            break;
+                break;
 
             case "left":
-                var1 = 0;
-                var2 = -1;
-
                 for (Cell i : blockCells) {
                     boolean isLastCell = blockCells.get(blockCells.size() - 1) == i;
 
                     // checks if at edge
-                    if (i.x <= 0) bool1 = true;
+                    if (i.x <= 0) return;
 
-                    if ((cellArray[i.y][i.x - 1].cellId == id || cellArray[i.y][i.x - 1].cellId == -1) && !isLastCell) {
-                        bool2 = true;
-                    }
+                    if ((cellArray[i.y][i.x - 1].cellId == id || cellArray[i.y][i.x - 1].cellId == -1) && !isLastCell)
+                        continue;
 
-                    if ((cellArray[i.y][i.x - 1].cellId != id) && (cellArray[i.y][i.x - 1].cellId != -1)) {
-                        bool3 = true;
-                    }
-            break;
+                    // checks if block to right is different cell
+                    if ((cellArray[i.y][i.x - 1].cellId != id) && (cellArray[i.y][i.x - 1].cellId != -1))
+                        return;
+                }
+                var1 = 0;
+                var2 = -1;
+                break;
 
             case "right":
                 var1 = 0;
                 var2 = 1;
                 break;
+
             default:
                 var1 = 0;
                 var2 = 0;
+                break;
         }
 
-            ArrayList<Cell> newCells = new ArrayList<>();
+        ArrayList<Cell> newCells = new ArrayList<>();
 
-            for (int i = blockCells.size() - 1; i >= 0; i--) {
+        for (int i = blockCells.size() - 1; i >= 0; i--) {
 
-                // add cells to new array
-                newCells.add(cellArray[blockCells.get(i).y + var1][blockCells.get(i).x + var2]);
+            // add cells to new array
+            newCells.add(cellArray[blockCells.get(i).y + var1][blockCells.get(i).x + var2]);
 
-                // erases old cells
-                cellArray[blockCells.get(i).y][blockCells.get(i).x].setColor(Color.WHITE);
-                cellArray[blockCells.get(i).y][blockCells.get(i).x].cellId = -1;
+            // erases old cells
+            cellArray[blockCells.get(i).y][blockCells.get(i).x].setColor(Color.WHITE);
+            cellArray[blockCells.get(i).y][blockCells.get(i).x].cellId = -1;
 
-                // removes old cells from cells array
-                Cell cellToRemove = cellArray[blockCells.get(i).y][blockCells.get(i).x];
-                blockCells.remove(cellToRemove);
-            }
-            blockCells = newCells;
+            // removes old cells from cells array
+            Cell cellToRemove = cellArray[blockCells.get(i).y][blockCells.get(i).x];
+            blockCells.remove(cellToRemove);
+        }
+        blockCells = newCells;
 
-            for (Cell cell : blockCells) {
-                cellArray[cell.y][cell.x].cellId = id;
-                cell.setColor(Color.BLUE);
-            }
+        for (Cell cell : blockCells) {
+            cellArray[cell.y][cell.x].cellId = id;
+            cell.setColor(Color.BLUE);
+        }
     }
+
 }
