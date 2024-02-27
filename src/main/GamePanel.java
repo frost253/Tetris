@@ -1,7 +1,7 @@
 package main;
 
 import blocks.*;
-import blocks.LineBlock;
+import blocks.IBlock;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -61,7 +61,7 @@ public class GamePanel extends JPanel implements EventListener, KeyListener {
         }
 
         if (counter == 10) {
-            block.moveDown(cellArray, "down");
+            block.move(cellArray, "down");
             counter = 0;
         }
     }
@@ -76,23 +76,57 @@ public class GamePanel extends JPanel implements EventListener, KeyListener {
 
         //check collision with other block here
         for (Cell cell : block.blockCells) {
-            if ((cellArray[cell.y + 1][cell.x].cellId != -1) && (cellArray[cell.y - 1][cell.x].cellId != cell.cellId))
+            if ((cellArray[cell.y + 1][cell.x].cellId != -1) && (cellArray[cell.y + 1][cell.x].cellId != cell.cellId))
                 return true;
         }
         return false;
     }
 
     void newBlock() {
-        switch (r.nextInt(1)) {
+        switch (r.nextInt(7)) {
             case 0:
-
                 // deletes old block
                 block = null;
                 System.gc();
 
                 // create new block
-                this.block = new LineBlock();
+                this.block = new IBlock();
+                break;
+            case 1:
+                block = null;
+                System.gc();
 
+                this.block = new LBlock();
+                break;
+            case 2:
+                block = null;
+                System.gc();
+
+                this.block = new OBlock();
+                break;
+            case 3:
+                block = null;
+                System.gc();
+
+                this.block = new SBlock();
+                break;
+            case 4:
+                block = null;
+                System.gc();
+
+                this.block = new ZBlock();
+                break;
+            case 5:
+                block = null;
+                System.gc();
+
+                this.block = new JBlock();
+                break;
+            case 6:
+                block = null;
+                System.gc();
+
+                this.block = new TBlock();
                 break;
         }
     }
@@ -140,11 +174,11 @@ public class GamePanel extends JPanel implements EventListener, KeyListener {
 
     @Override public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_LEFT -> block.moveDown(cellArray, "left");
-            case KeyEvent.VK_RIGHT -> block.moveDown(cellArray, "right");
+            case KeyEvent.VK_LEFT -> block.move(cellArray, "left");
+            case KeyEvent.VK_RIGHT -> block.move(cellArray, "right");
             case KeyEvent.VK_DOWN -> {
                 if (!block.isOnLastRow()) {
-                    block.moveDown(cellArray, "down");
+                    block.move(cellArray, "down");
                 }
             }
             case KeyEvent.VK_P -> paused = !paused;

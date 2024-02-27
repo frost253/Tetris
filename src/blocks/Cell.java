@@ -30,16 +30,13 @@ public class Cell {
 
         // Create a Color object with the random RGB values
         color = new Color(red, green, blue);
-
-        // don't like this
-        if (cellId == -1) color = Color.WHITE;
     }
 
 	public void setCellId(int id) {
 		this.cellId = id;
 	}
 
-    public void shiftDown() {
+    public void shiftDown() { // fix this later
         Cell oldPos = GamePanel.getCellAt(y, x);
         Cell newPos = GamePanel.getCellAt(y + 1, x);
 

@@ -2,7 +2,6 @@ package blocks;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Collections;
 
 public abstract class Block {
     public ArrayList<Cell> blockCells;
@@ -13,7 +12,9 @@ public abstract class Block {
         blockCells = new ArrayList<>();
     }
 
-    public void moveDown(Cell[][] cellArray, String direction) {
+    public void move(Cell[][] cellArray, String direction) {
+
+        //System.out.println(ogColor.toString());
         int var1, var2;
 
         switch (direction) {
@@ -64,7 +65,8 @@ public abstract class Block {
         }
 
         ArrayList<Cell> newCells = new ArrayList<>();
-
+        Color ogColor = blockCells.get(0).getColor();
+        System.out.println(ogColor.toString());
         for (int i = blockCells.size() - 1; i >= 0; i--) {
 
             // add cells to new array
@@ -82,7 +84,7 @@ public abstract class Block {
 
         for (Cell cell : blockCells) {
             cellArray[cell.y][cell.x].cellId = id;
-            cell.setColor(Color.BLUE);
+            cell.setColor(ogColor);
         }
     }
     public boolean isOnLastRow() {
