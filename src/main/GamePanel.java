@@ -97,7 +97,7 @@ public class GamePanel extends JPanel implements EventListener, KeyListener {
         }
     }
 
-    void checkComplete() throws InterruptedException {
+    void checkComplete() {
         int cellCount = 0;
         for (Cell[] rows : cellArray) {
             for (Cell cols : rows) {
@@ -117,7 +117,6 @@ public class GamePanel extends JPanel implements EventListener, KeyListener {
                         cellArray[cols.y][i].setColor(Color.WHITE);
                         cellArray[cols.y][i].cellId = -1;
                     }
-                    //Thread.sleep(Integer.MAX_VALUE);
 
                     List<Cell> cells = new ArrayList<>();
                     for (Cell[] cellRows : cellArray) {
@@ -141,14 +140,14 @@ public class GamePanel extends JPanel implements EventListener, KeyListener {
 
     @Override public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
-//            case KeyEvent.VK_RIGHT -> block.shift("RIGHT", cellArray);
-//            case KeyEvent.VK_LEFT -> block.shift("LEFT", cellArray);
             case KeyEvent.VK_LEFT -> block.moveDown(cellArray, "left");
             case KeyEvent.VK_RIGHT -> block.moveDown(cellArray, "right");
-            case KeyEvent.VK_P -> paused = !paused;
             case KeyEvent.VK_DOWN -> {
-
+                if (!block.isOnLastRow()) {
+                    block.moveDown(cellArray, "down");
+                }
             }
+            case KeyEvent.VK_P -> paused = !paused;
         }
     }
 

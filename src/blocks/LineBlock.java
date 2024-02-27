@@ -8,7 +8,7 @@ public class LineBlock extends Block {
     Color color;
 
     public LineBlock() {
-        super(Color.BLUE);
+        super();
         color = Color.BLUE;
         id = lastId++;
 //        int y=0;

@@ -9,82 +9,12 @@ public abstract class Block {
     static int lastId = 0;
     public int id;
 
-    Block(Color color) {
+    Block() {
         blockCells = new ArrayList<>();
     }
 
-    public void shift(String direction, Cell[][] cellArray) {
-        switch (direction) {
-            case "LEFT" -> {
-                for (Cell i : blockCells) {
-                    boolean isLastCell = blockCells.get(blockCells.size() - 1) == i;
-
-                    // checks if at edge
-                    if (i.x <= 0) return;
-
-                    if ((cellArray[i.y][i.x - 1].cellId == id || cellArray[i.y][i.x - 1].cellId == -1) && !isLastCell) {
-                        continue;
-                    }
-
-                    if ((cellArray[i.y][i.x - 1].cellId != id) && (cellArray[i.y][i.x - 1].cellId != -1)) {
-                        return;
-                    }
-
-                    if (isLastCell) {
-                        ArrayList<Cell> newCells = new ArrayList<>();
-                        for (Cell cell : blockCells) {
-                            newCells.add(cellArray[cell.y][cell.x - 1]);
-                            cellArray[cell.y][cell.x - 1].cellId = id;
-                            cellArray[cell.y][cell.x - 1].setColor(cell.getColor());
-                            blockCells = newCells;
-                        }
-                        // erase current position
-                        for (Cell cell : blockCells) {
-                            cellArray[cell.y][cell.x].cellId = -1;
-                            cellArray[cell.y][cell.x].setColor(Color.WHITE);
-                        }
-                    }
-                }
-            }
-            case "RIGHT" -> {
-                for (Cell cell : blockCells) {
-                    boolean isLastCell = blockCells.get(blockCells.size() - 1) == cell;
-
-                    // checks if at edge
-                    if (cell.x >= cellArray[0].length - 1) return;
-
-                    if ((cellArray[cell.y][cell.x + 1].cellId == id || cellArray[cell.y][cell.x + 1].cellId == -1) && !isLastCell) {
-                        continue;
-                    }
-
-                    if ((cellArray[cell.y][cell.x + 1].cellId != id) && (cellArray[cell.y][cell.x + 1].cellId != -1)) {
-                        return;
-                    }
-
-                    if (isLastCell) {
-                        // erase current position
-                        for (Cell j : blockCells) {
-                            cellArray[j.y][j.x].cellId = -1;
-                            cellArray[j.y][j.x].setColor(Color.WHITE);
-                        }
-
-                        // updates the position
-                        ArrayList<Cell> newCells = new ArrayList<>();
-                        for (Cell j : blockCells) {
-                            newCells.add(cellArray[j.y][j.x + 1]);
-                            cellArray[j.y][j.x + 1].cellId = id;
-                            cellArray[j.y][j.x + 1].setColor(j.getColor());
-                            blockCells = newCells;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     public void moveDown(Cell[][] cellArray, String direction) {
-        int var1 = 0;
-        int var2 = 0;
+        int var1, var2;
 
         switch (direction) {
             case "down":
@@ -111,6 +41,18 @@ public abstract class Block {
                 break;
 
             case "right":
+                for (Cell cell : blockCells) {
+                    boolean isLastCell = blockCells.get(blockCells.size() - 1) == cell;
+
+                    // checks if at edge
+                    if (cell.x >= cellArray[0].length - 1) return;
+
+                    if ((cellArray[cell.y][cell.x + 1].cellId == id || cellArray[cell.y][cell.x + 1].cellId == -1) && !isLastCell)
+                        continue;
+
+                    if ((cellArray[cell.y][cell.x + 1].cellId != id) && (cellArray[cell.y][cell.x + 1].cellId != -1))
+                        return;
+                }
                 var1 = 0;
                 var2 = 1;
                 break;
@@ -142,6 +84,12 @@ public abstract class Block {
             cellArray[cell.y][cell.x].cellId = id;
             cell.setColor(Color.BLUE);
         }
+    }
+    public boolean isOnLastRow() {
+        for (Cell cell : blockCells) {
+            if (cell.y == 39) return true;
+        }
+        return false;
     }
 
 }
