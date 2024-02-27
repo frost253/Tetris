@@ -9,17 +9,9 @@ public abstract class Block {
     static int lastId = 0;
     public int id;
 
-    Block() {
-
+    Block(Color color) {
         blockCells = new ArrayList<>();
-
     }
-
-//    public void draw(Cell[][] cellArray) {
-//        for (Cell i : blockCells) {
-//            cellArray[i.y][i.x].setColor(i.getColor());
-//        }
-//    }
 
     public void shift(String direction, Cell[][] cellArray) {
         switch (direction) {

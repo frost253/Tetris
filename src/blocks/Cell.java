@@ -51,7 +51,6 @@ public class Cell {
     }
 
     public void setColor(Color color) {
-        if (color == Color.WHITE) return;
         this.color = color;
         panel.setBackground(color);
     }

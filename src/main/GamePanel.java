@@ -146,6 +146,9 @@ public class GamePanel extends JPanel implements EventListener, KeyListener {
             case KeyEvent.VK_LEFT -> block.moveDown(cellArray, "left");
             case KeyEvent.VK_RIGHT -> block.moveDown(cellArray, "right");
             case KeyEvent.VK_P -> paused = !paused;
+            case KeyEvent.VK_DOWN -> {
+
+            }
         }
     }
 
@@ -178,7 +181,8 @@ public class GamePanel extends JPanel implements EventListener, KeyListener {
         while (running) {
             long startTime = System.nanoTime();
             update();
-//            activeBlock.draw(cellArray);
+
+//            block.draw(cellArray);
             if (checkYCollision()) {
                 checkComplete();
 
