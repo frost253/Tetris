@@ -39,19 +39,17 @@ public abstract class Block {
                     }
 
                     if (isLastCell) {
-                        // erase current position
-                        for (Cell cell : blockCells) {
-                            cellArray[cell.y][cell.x].cellId = -1;
-                            cellArray[cell.y][cell.x].setColor(Color.WHITE);
-                        }
-
-                        // updates the position
                         ArrayList<Cell> newCells = new ArrayList<>();
                         for (Cell cell : blockCells) {
                             newCells.add(cellArray[cell.y][cell.x - 1]);
                             cellArray[cell.y][cell.x - 1].cellId = id;
                             cellArray[cell.y][cell.x - 1].setColor(cell.getColor());
                             blockCells = newCells;
+                        }
+                        // erase current position
+                        for (Cell cell : blockCells) {
+                            cellArray[cell.y][cell.x].cellId = -1;
+                            cellArray[cell.y][cell.x].setColor(Color.WHITE);
                         }
                     }
                 }
@@ -92,27 +90,64 @@ public abstract class Block {
         }
     }
 
-    public void moveDown(Cell[][] cellArray) {
-        ArrayList<Cell> newCells = new ArrayList<>();
+    public void moveDown(Cell[][] cellArray, String direction) {
+        int var1, var2;
+        boolean bool1, bool2, bool3, bool4;
 
-        for (int i=blockCells.size()-1; i>=0; i--) {
+        switch (direction) {
+            case "down":
+                var1 = 1;
+                var2 = 0;
+            break;
 
-            // add cells to new array
-            newCells.add(cellArray[blockCells.get(i).y + 1][blockCells.get(i).x]);
+            case "left":
+                var1 = 0;
+                var2 = -1;
 
-            // erases old cells
-            cellArray[blockCells.get(i).y][blockCells.get(i).x].setColor(Color.WHITE);
-            cellArray[blockCells.get(i).y][blockCells.get(i).x].cellId = -1;
+                for (Cell i : blockCells) {
+                    boolean isLastCell = blockCells.get(blockCells.size() - 1) == i;
 
-            // removes old cells from cells array
-            Cell cellToRemove = cellArray[blockCells.get(i).y][blockCells.get(i).x];
-            blockCells.remove(cellToRemove);
+                    // checks if at edge
+                    if (i.x <= 0) bool1 = true;
+
+                    if ((cellArray[i.y][i.x - 1].cellId == id || cellArray[i.y][i.x - 1].cellId == -1) && !isLastCell) {
+                        bool2 = true;
+                    }
+
+                    if ((cellArray[i.y][i.x - 1].cellId != id) && (cellArray[i.y][i.x - 1].cellId != -1)) {
+                        bool3 = true;
+                    }
+            break;
+
+            case "right":
+                var1 = 0;
+                var2 = 1;
+                break;
+            default:
+                var1 = 0;
+                var2 = 0;
         }
-        blockCells = newCells;
-        Collections.reverse(blockCells);
 
-        for (Cell i : blockCells) {
-            cellArray[i.y][i.x].cellId = id;
-        }
+            ArrayList<Cell> newCells = new ArrayList<>();
+
+            for (int i = blockCells.size() - 1; i >= 0; i--) {
+
+                // add cells to new array
+                newCells.add(cellArray[blockCells.get(i).y + var1][blockCells.get(i).x + var2]);
+
+                // erases old cells
+                cellArray[blockCells.get(i).y][blockCells.get(i).x].setColor(Color.WHITE);
+                cellArray[blockCells.get(i).y][blockCells.get(i).x].cellId = -1;
+
+                // removes old cells from cells array
+                Cell cellToRemove = cellArray[blockCells.get(i).y][blockCells.get(i).x];
+                blockCells.remove(cellToRemove);
+            }
+            blockCells = newCells;
+
+            for (Cell cell : blockCells) {
+                cellArray[cell.y][cell.x].cellId = id;
+                cell.setColor(Color.BLUE);
+            }
     }
 }
